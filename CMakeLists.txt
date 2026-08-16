@@ -13,6 +13,12 @@ find_package(SFML 3 COMPONENTS Graphics Window System REQUIRED)
 
 add_executable(aether
     src/main.cpp
+    src/gameplay/player.cpp
+)
+
+target_include_directories(aether
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
 target_link_libraries(aether
