@@ -1,18 +1,43 @@
 #include <SFML/Graphics.hpp>
 
 #include "aether/gameplay/player.hpp"
+#include "aether/input/input_state.hpp"
+#include "aether/world/world.hpp"
+#include "aether/rendering/camera.hpp"
+#include "aether/rendering/world_renderer.hpp"
 
 int main()
 {
+    constexpr float windowWidth = 1280.0f;
+    constexpr float windowHeight = 720.0f;
+
+    constexpr float worldWidth = 3000.0f;
+    constexpr float worldHeight = 2000.0f;
+
     sf::RenderWindow window(
-        sf::VideoMode({1280, 720}),
+        sf::VideoMode({
+            static_cast<unsigned int>(windowWidth),
+            static_cast<unsigned int>(windowHeight)
+        }),
         "Project Aether"
     );
 
     window.setFramerateLimit(144);
 
+    aether::world::World world(
+        worldWidth,
+        worldHeight
+    );
+
+    aether::rendering::Camera camera(
+        {windowWidth, windowHeight},
+        world.getSize()
+    );
+
+    aether::rendering::WorldRenderer worldRenderer(world);
+
     aether::gameplay::Player player(
-        {640.0f, 360.0f},
+        {worldWidth / 2.0f, worldHeight / 2.0f},
         300.0f
     );
 
@@ -33,20 +58,41 @@ int main()
         aether::input::InputState input;
 
         input.moveUp =
-            sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W);
+            sf::Keyboard::isKeyPressed(
+                sf::Keyboard::Key::W
+            );
 
         input.moveDown =
-            sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S);
+            sf::Keyboard::isKeyPressed(
+                sf::Keyboard::Key::S
+            );
 
         input.moveLeft =
-            sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A);
+            sf::Keyboard::isKeyPressed(
+                sf::Keyboard::Key::A
+            );
 
         input.moveRight =
-            sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D);
+            sf::Keyboard::isKeyPressed(
+                sf::Keyboard::Key::D
+            );
 
-        player.update(input, deltaTime);
+
+        player.update(
+            input,
+            deltaTime,
+            world
+        );
+
+        player.constrainToWorld(world.getSize());
+
+        camera.follow(player.getPosition());
+
+        window.setView(camera.getView());
 
         window.clear(sf::Color(20, 20, 25));
+
+        worldRenderer.render(window);
 
         player.render(window);
 
