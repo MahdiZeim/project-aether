@@ -23,7 +23,11 @@ public:
 
     void constrainToWorld(sf::Vector2f worldSize);
 
+    void aimAt(sf::Vector2f worldPosition);
+
     sf::Vector2f getPosition() const;
+
+    sf::Vector2f getAimDirection() const;
 
 private:
     bool collidesWithWorld(
@@ -34,6 +38,8 @@ private:
     sf::Vector2f position_;
     float speed_;
 
+    sf::Vector2f aimDirection_{1.0f, 0.0f};
+    
     sf::CircleShape shape_;
 };
 

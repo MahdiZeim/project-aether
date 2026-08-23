@@ -1,3 +1,4 @@
+#include <iostream>
 #include <SFML/Graphics.hpp>
 
 #include "aether/gameplay/player.hpp"
@@ -57,6 +58,22 @@ int main()
 
         aether::input::InputState input;
 
+        input.mousePosition = sf::Mouse::getPosition(window);
+
+        const sf::Vector2f mouseWorldPosition =
+            window.mapPixelToCoords(input.mousePosition);
+
+        player.aimAt(mouseWorldPosition);
+
+
+            std::cout
+            << "Mouse World: "
+            << mouseWorldPosition.x
+            << ", "
+            << mouseWorldPosition.y
+            << '\n';
+
+
         input.moveUp =
             sf::Keyboard::isKeyPressed(
                 sf::Keyboard::Key::W
@@ -95,6 +112,27 @@ int main()
         worldRenderer.render(window);
 
         player.render(window);
+
+
+        const sf::Vector2f playerPosition =
+            player.getPosition();
+
+        const sf::Vector2f aimDirection =
+            player.getAimDirection();
+
+        sf::Vertex aimLine[] =
+        {
+            sf::Vertex{
+                playerPosition,
+                sf::Color::Red
+            },
+            sf::Vertex{
+                playerPosition + aimDirection * 80.0f,
+                sf::Color::Red
+            }
+        };
+
+        window.draw(aimLine, 2, sf::PrimitiveType::Lines);
 
         window.display();
     }

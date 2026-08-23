@@ -3,6 +3,7 @@
 #include <cmath>
 #include <algorithm>
 
+
 #include "aether/collision/collision.hpp"
 
 namespace aether::gameplay
@@ -124,9 +125,34 @@ void Player::constrainToWorld(sf::Vector2f worldSize)
     shape_.setPosition(position_);
 }
 
+void Player::aimAt(sf::Vector2f worldPosition)
+{
+    const sf::Vector2f direction =
+        worldPosition - position_;
+
+    const float length =
+        std::sqrt(
+            direction.x * direction.x +
+            direction.y * direction.y
+        );
+
+    if (length > 0.0001f)
+    {
+        aimDirection_ = {
+            direction.x / length,
+            direction.y / length
+        };
+    }
+}
+
 sf::Vector2f Player::getPosition() const
 {
     return position_;
+}
+
+sf::Vector2f Player::getAimDirection() const
+{
+    return aimDirection_;
 }
 
 } // namespace aether::gameplay
