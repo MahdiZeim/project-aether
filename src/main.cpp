@@ -65,7 +65,8 @@ int main()
 
         player.aimAt(mouseWorldPosition);
 
-
+        player.updateFacing();
+        
             std::cout
             << "Mouse World: "
             << mouseWorldPosition.x
@@ -112,27 +113,6 @@ int main()
         worldRenderer.render(window);
 
         player.render(window);
-
-
-        const sf::Vector2f playerPosition =
-            player.getPosition();
-
-        const sf::Vector2f aimDirection =
-            player.getAimDirection();
-
-        sf::Vertex aimLine[] =
-        {
-            sf::Vertex{
-                playerPosition,
-                sf::Color::Red
-            },
-            sf::Vertex{
-                playerPosition + aimDirection * 80.0f,
-                sf::Color::Red
-            }
-        };
-
-        window.draw(aimLine, 2, sf::PrimitiveType::Lines);
 
         window.display();
     }

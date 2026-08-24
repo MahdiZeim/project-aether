@@ -16,6 +16,9 @@ Player::Player(sf::Vector2f position, float speed)
     shape_.setRadius(20.0f);
     shape_.setOrigin({20.0f, 20.0f});
     shape_.setPosition(position_);
+
+    weapon_.setPosition(position_);
+    weapon_.setDirection(aimDirection_);
 }
 
 void Player::update(
@@ -78,6 +81,9 @@ void Player::update(
     }
 
     shape_.setPosition(position_);
+
+    weapon_.setPosition(position_);
+    weapon_.setDirection(aimDirection_);
 }
 
 bool Player::collidesWithWorld(
@@ -103,7 +109,36 @@ bool Player::collidesWithWorld(
 
 void Player::render(sf::RenderWindow& window)
 {
+    // Draw player body.
     window.draw(shape_);
+
+    // Draw weapon 
+    weapon_.render(window);
+    
+    // Draw a visible line showing the current aim direction.
+    const sf::Vector2f center = position_;
+
+    const sf::Vector2f indicatorEnd =
+        center + aimDirection_ * 60.0f;
+
+    sf::Vertex indicator[] =
+    {
+        sf::Vertex{
+            center,
+            sf::Color::Red
+        },
+
+        sf::Vertex{
+            indicatorEnd,
+            sf::Color::Red
+        }
+    };
+
+    window.draw(
+        indicator,
+        2,
+        sf::PrimitiveType::Lines
+    );
 }
 
 void Player::constrainToWorld(sf::Vector2f worldSize)
@@ -142,8 +177,20 @@ void Player::aimAt(sf::Vector2f worldPosition)
             direction.x / length,
             direction.y / length
         };
+
+        weapon_.setDirection(aimDirection_);
     }
 }
+
+void Player::updateFacing()
+{
+    const float angle =
+        std::atan2(aimDirection_.y, aimDirection_.x)
+        * 180.0f / 3.14159265f;
+
+    shape_.setRotation(sf::degrees(angle));
+}
+
 
 sf::Vector2f Player::getPosition() const
 {

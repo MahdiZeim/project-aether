@@ -4,6 +4,7 @@
 
 #include "aether/input/input_state.hpp"
 #include "aether/world/world.hpp"
+#include "aether/gameplay/weapon.hpp"
 
 namespace aether::gameplay
 {
@@ -21,9 +22,13 @@ public:
 
     void render(sf::RenderWindow& window);
 
+    void draw(sf::RenderWindow& window) const;
+    
     void constrainToWorld(sf::Vector2f worldSize);
 
     void aimAt(sf::Vector2f worldPosition);
+
+    void updateFacing();
 
     sf::Vector2f getPosition() const;
 
@@ -41,6 +46,8 @@ private:
     sf::Vector2f aimDirection_{1.0f, 0.0f};
     
     sf::CircleShape shape_;
+
+    Weapon weapon_;
 };
 
 } // namespace aether::gameplay

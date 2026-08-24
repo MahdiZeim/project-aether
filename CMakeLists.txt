@@ -27,6 +27,7 @@ add_executable(aether
     src/rendering/camera.cpp
     src/rendering/world_renderer.cpp
     src/collision/collision.cpp
+    src/gameplay/weapon.cpp
 )
 
 target_include_directories(aether PRIVATE
