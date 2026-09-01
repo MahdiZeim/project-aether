@@ -15,9 +15,10 @@ public:
 
     void setPosition(sf::Vector2f position);
     void setDirection(sf::Vector2f direction);
+    void update(float deltaTime);
 
     void render(sf::RenderWindow& window) const;
-    std::unique_ptr<Projectile> fire() const;
+    std::unique_ptr<Projectile> fire();
     
 private:
     sf::RectangleShape shape_;
@@ -27,6 +28,8 @@ private:
     float damage_{20.0f};
     float projectileSpeed_{800.0f};
     float range_{500.0f};
+    float fireRate_{5.0f};
+    float fireCooldown_{0.0f};
 };
 
 } // namespace aether::gameplay

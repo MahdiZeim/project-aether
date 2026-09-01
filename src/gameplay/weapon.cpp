@@ -47,8 +47,28 @@ void Weapon::render(sf::RenderWindow& window) const
     window.draw(shape_);
 }
 
-std::unique_ptr<Projectile> Weapon::fire() const
+void Weapon::update(float deltaTime)
 {
+    if (fireCooldown_ > 0.0f)
+    {
+        fireCooldown_ -= deltaTime;
+
+        if (fireCooldown_ < 0.0f)
+        {
+            fireCooldown_ = 0.0f;
+        }
+    }
+}
+
+std::unique_ptr<Projectile> Weapon::fire()
+{
+    if (fireCooldown_ > 0.0f)
+    {
+        return nullptr;
+    }
+
+    fireCooldown_ = 1.0f / fireRate_;
+
     return std::make_unique<Projectile>(
         position_,
         direction_,
@@ -57,5 +77,4 @@ std::unique_ptr<Projectile> Weapon::fire() const
         range_
     );
 }
-
 } // namespace aether::gameplay

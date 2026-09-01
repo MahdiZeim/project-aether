@@ -84,6 +84,7 @@ void Player::update(
 
     weapon_.setPosition(position_);
     weapon_.setDirection(aimDirection_);
+    weapon_.update(deltaTime);
 }
 
 bool Player::collidesWithWorld(
