@@ -47,4 +47,15 @@ void Weapon::render(sf::RenderWindow& window) const
     window.draw(shape_);
 }
 
+std::unique_ptr<Projectile> Weapon::fire() const
+{
+    return std::make_unique<Projectile>(
+        position_,
+        direction_,
+        projectileSpeed_,
+        damage_,
+        range_
+    );
+}
+
 } // namespace aether::gameplay

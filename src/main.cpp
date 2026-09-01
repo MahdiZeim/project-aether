@@ -6,6 +6,7 @@
 #include "aether/world/world.hpp"
 #include "aether/rendering/camera.hpp"
 #include "aether/rendering/world_renderer.hpp"
+#include "aether/gameplay/projectile_manager.hpp"
 
 int main()
 {
@@ -42,17 +43,31 @@ int main()
         300.0f
     );
 
+    aether::gameplay::ProjectileManager projectileManager;
+
     sf::Clock clock;
 
     while (window.isOpen())
     {
-        while (const std::optional event = window.pollEvent())
+     while (const std::optional event = window.pollEvent())
+    {
+        if (event->is<sf::Event::Closed>())
         {
-            if (event->is<sf::Event::Closed>())
+            window.close();
+        }
+
+        if (const auto* mouseButtonPressed =
+                event->getIf<sf::Event::MouseButtonPressed>())
+        {
+            if (mouseButtonPressed->button ==
+                sf::Mouse::Button::Left)
             {
-                window.close();
+                projectileManager.add(
+                    player.fire()
+                );
             }
         }
+    }
 
         const float deltaTime = clock.restart().asSeconds();
 
@@ -102,6 +117,8 @@ int main()
             world
         );
 
+        projectileManager.update(deltaTime);
+
         player.constrainToWorld(world.getSize());
 
         camera.follow(player.getPosition());
@@ -112,6 +129,8 @@ int main()
 
         worldRenderer.render(window);
 
+        projectileManager.render(window);
+        
         player.render(window);
 
         window.display();

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 #include "aether/input/input_state.hpp"
 #include "aether/world/world.hpp"
@@ -33,6 +34,8 @@ public:
     sf::Vector2f getPosition() const;
 
     sf::Vector2f getAimDirection() const;
+
+    std::unique_ptr<Projectile> fire();
 
 private:
     bool collidesWithWorld(

@@ -202,4 +202,9 @@ sf::Vector2f Player::getAimDirection() const
     return aimDirection_;
 }
 
+std::unique_ptr<Projectile> Player::fire()
+{
+    return weapon_.fire();
+}
+
 } // namespace aether::gameplay
