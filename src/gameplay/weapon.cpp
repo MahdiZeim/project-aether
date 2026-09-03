@@ -62,12 +62,19 @@ void Weapon::update(float deltaTime)
 
 std::unique_ptr<Projectile> Weapon::fire()
 {
+    if (ammo_ <= 0)
+    {
+        return nullptr;
+    }
+
     if (fireCooldown_ > 0.0f)
     {
         return nullptr;
     }
 
     fireCooldown_ = 1.0f / fireRate_;
+
+    --ammo_;
 
     return std::make_unique<Projectile>(
         position_,
@@ -77,4 +84,15 @@ std::unique_ptr<Projectile> Weapon::fire()
         range_
     );
 }
+
+int Weapon::getAmmo() const
+{
+    return ammo_;
+}
+
+int Weapon::getMagazineSize() const
+{
+    return magazineSize_;
+}
+
 } // namespace aether::gameplay

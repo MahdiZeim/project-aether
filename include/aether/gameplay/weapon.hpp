@@ -19,6 +19,9 @@ public:
 
     void render(sf::RenderWindow& window) const;
     std::unique_ptr<Projectile> fire();
+
+    int getAmmo() const;
+    int getMagazineSize() const;
     
 private:
     sf::RectangleShape shape_;
@@ -30,6 +33,9 @@ private:
     float range_{500.0f};
     float fireRate_{5.0f};
     float fireCooldown_{0.0f};
+
+    int magazineSize_{12};
+    int ammo_{12};
 };
 
 } // namespace aether::gameplay
