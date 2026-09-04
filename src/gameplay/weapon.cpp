@@ -62,17 +62,7 @@ void Weapon::update(float deltaTime)
 
 std::unique_ptr<Projectile> Weapon::fire()
 {
-    if (state_ == WeaponState::Reloading)
-    {
-        return nullptr;
-    }
-
-    if (ammo_ <= 0)
-    {
-        return nullptr;
-    }
-
-    if (fireCooldown_ > 0.0f)
+    if (!canFire())
     {
         return nullptr;
     }
@@ -114,6 +104,7 @@ void Weapon::startReload()
 
     state_ = WeaponState::Reloading;
     reloadTimer_ = 0.0f;
+    fireCooldown_ = 0.0f;
 }
 
 void Weapon::updateReload(float deltaTime)
@@ -136,6 +127,26 @@ void Weapon::updateReload(float deltaTime)
 bool Weapon::isReloading() const
 {
     return state_ == WeaponState::Reloading;
+}
+
+bool Weapon::canFire() const
+{
+    if (state_ != WeaponState::Ready)
+    {
+        return false;
+    }
+
+    if (ammo_ <= 0)
+    {
+        return false;
+    }
+
+    if (fireCooldown_ > 0.0f)
+    {
+        return false;
+    }
+
+    return true;
 }
 
 } // namespace aether::gameplay

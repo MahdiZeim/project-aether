@@ -31,7 +31,8 @@ public:
     void startReload();
     void updateReload(float deltaTime);
     bool isReloading() const;
-
+    bool canFire() const;
+    
 private:
     sf::RectangleShape shape_;
     sf::Vector2f position_{0.0f, 0.0f};
