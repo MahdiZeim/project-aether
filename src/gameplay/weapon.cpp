@@ -62,6 +62,11 @@ void Weapon::update(float deltaTime)
 
 std::unique_ptr<Projectile> Weapon::fire()
 {
+    if (state_ == WeaponState::Reloading)
+    {
+        return nullptr;
+    }
+
     if (ammo_ <= 0)
     {
         return nullptr;
@@ -93,6 +98,44 @@ int Weapon::getAmmo() const
 int Weapon::getMagazineSize() const
 {
     return magazineSize_;
+}
+
+void Weapon::startReload()
+{
+    if (state_ == WeaponState::Reloading)
+    {
+        return;
+    }
+
+    if (ammo_ >= magazineSize_)
+    {
+        return;
+    }
+
+    state_ = WeaponState::Reloading;
+    reloadTimer_ = 0.0f;
+}
+
+void Weapon::updateReload(float deltaTime)
+{
+    if (state_ != WeaponState::Reloading)
+    {
+        return;
+    }
+
+    reloadTimer_ += deltaTime;
+
+    if (reloadTimer_ >= reloadTime_)
+    {
+        ammo_ = magazineSize_;
+        reloadTimer_ = 0.0f;
+        state_ = WeaponState::Ready;
+    }
+}
+
+bool Weapon::isReloading() const
+{
+    return state_ == WeaponState::Reloading;
 }
 
 } // namespace aether::gameplay

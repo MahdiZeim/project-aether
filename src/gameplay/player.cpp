@@ -208,4 +208,14 @@ std::unique_ptr<Projectile> Player::fire()
     return weapon_.fire();
 }
 
+void Player::reload()
+{
+    weapon_.startReload();
+}
+
+void Player::updateWeapon(float deltaTime)
+{
+    weapon_.updateReload(deltaTime);
+}
+
 } // namespace aether::gameplay

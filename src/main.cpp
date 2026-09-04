@@ -67,6 +67,16 @@ int main()
                 );
             }
         }
+
+        if (const auto* keyPressed =
+                event->getIf<sf::Event::KeyPressed>())
+        {
+            if (keyPressed->code == sf::Keyboard::Key::R)
+            {
+                player.reload();
+            }
+        }
+
     }
 
         const float deltaTime = clock.restart().asSeconds();
@@ -118,6 +128,8 @@ int main()
         );
 
         projectileManager.update(deltaTime);
+
+        player.updateWeapon(deltaTime);
 
         player.constrainToWorld(world.getSize());
 

@@ -37,6 +37,10 @@ public:
 
     std::unique_ptr<Projectile> fire();
 
+    void reload();
+    
+    void updateWeapon(float deltaTime);
+
 private:
     bool collidesWithWorld(
         sf::Vector2f position,

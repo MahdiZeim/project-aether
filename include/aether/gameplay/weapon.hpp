@@ -8,6 +8,12 @@
 namespace aether::gameplay
 {
 
+enum class WeaponState
+{
+    Ready,
+    Reloading
+};
+
 class Weapon
 {
 public:
@@ -22,7 +28,10 @@ public:
 
     int getAmmo() const;
     int getMagazineSize() const;
-    
+    void startReload();
+    void updateReload(float deltaTime);
+    bool isReloading() const;
+
 private:
     sf::RectangleShape shape_;
     sf::Vector2f position_{0.0f, 0.0f};
@@ -36,6 +45,10 @@ private:
 
     int magazineSize_{12};
     int ammo_{12};
+    float reloadTime_{1.5f};
+    float reloadTimer_{0.0f};
+
+    WeaponState state_{WeaponState::Ready};
 };
 
 } // namespace aether::gameplay
