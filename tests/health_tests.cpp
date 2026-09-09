@@ -129,6 +129,25 @@ int main()
         );
     }
 
+        // Test 8: Damageable abstraction
+    {
+        aether::gameplay::Health health(100.0f);
+
+        aether::gameplay::Damageable& damageable = health;
+
+        damageable.takeDamage(40.0f);
+
+        check(
+            "Damageable applies damage",
+            health.getCurrent() == 60.0f
+        );
+
+        check(
+            "Damageable reports alive state",
+            damageable.isAlive()
+        );
+    }
+    
     std::cout << '\n';
     std::cout << "Tests passed: " << passed << '\n';
     std::cout << "Tests failed: " << failed << '\n';
