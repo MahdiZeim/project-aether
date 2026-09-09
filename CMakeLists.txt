@@ -30,6 +30,7 @@ add_executable(aether
     src/gameplay/weapon.cpp
     src/gameplay/projectile.cpp
     src/gameplay/projectile_manager.cpp
+    src/gameplay/health.cpp
 )
 
 target_include_directories(aether PRIVATE
@@ -54,6 +55,17 @@ add_executable(aether_collision_tests
 target_include_directories(aether_collision_tests PRIVATE
     ${PROJECT_SOURCE_DIR}/include
 )
+
+
+add_executable(aether_health_tests
+    tests/health_tests.cpp
+    src/gameplay/health.cpp
+)
+target_include_directories(aether_health_tests
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
 
 target_link_libraries(aether_collision_tests PRIVATE
     SFML::Graphics
