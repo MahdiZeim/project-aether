@@ -66,6 +66,25 @@ target_include_directories(aether_health_tests
         ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
+add_executable(aether_player_tests
+    tests/player_tests.cpp
+    src/gameplay/player.cpp
+    src/gameplay/health.cpp
+    src/gameplay/weapon.cpp
+    src/gameplay/projectile.cpp
+    src/world/world.cpp
+    src/collision/collision.cpp
+)
+
+target_include_directories(aether_player_tests PRIVATE
+    ${PROJECT_SOURCE_DIR}/include
+)
+
+target_link_libraries(aether_player_tests PRIVATE
+    SFML::Graphics
+    SFML::Window
+    SFML::System
+)
 
 target_link_libraries(aether_collision_tests PRIVATE
     SFML::Graphics

@@ -218,4 +218,24 @@ void Player::updateWeapon(float deltaTime)
     weapon_.updateReload(deltaTime);
 }
 
+void Player::takeDamage(float damage)
+{
+    health_.takeDamage(damage);
+}
+
+bool Player::isAlive() const
+{
+    return health_.isAlive();
+}
+
+float Player::getHealth() const
+{
+    return health_.getCurrent();
+}
+
+float Player::getMaxHealth() const
+{
+    return health_.getMax();
+}
+
 } // namespace aether::gameplay

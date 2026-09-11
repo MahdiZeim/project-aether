@@ -6,6 +6,7 @@
 #include "aether/input/input_state.hpp"
 #include "aether/world/world.hpp"
 #include "aether/gameplay/weapon.hpp"
+#include "aether/gameplay/health.hpp"
 
 namespace aether::gameplay
 {
@@ -41,6 +42,12 @@ public:
     
     void updateWeapon(float deltaTime);
 
+    void takeDamage(float damage);
+    bool isAlive() const;
+
+    float getHealth() const;
+    float getMaxHealth() const;
+
 private:
     bool collidesWithWorld(
         sf::Vector2f position,
@@ -55,6 +62,8 @@ private:
     sf::CircleShape shape_;
 
     Weapon weapon_;
+
+    Health health_{100.0f};
 };
 
 } // namespace aether::gameplay
